@@ -24,14 +24,16 @@ compute_target = workspace.compute_targets[COMPUTE_NAME]
 if compute_target and type(compute_target) is AmlCompute:
     print("Found compute target: " + COMPUTE_NAME)
 
+
 # Create a folder data/ where our dataset will be placed
 data_folder = os.path.join(os.getcwd(), '../data')
 os.makedirs(data_folder, exist_ok=True)
 
+
 # Download the brand descriptions dataset 
 brand_descriptions_dataset = workspace.datasets[DATASET_NAME]
 brand_descriptions_dataset.to_csv_files(separator=',').download(target_path=data_folder, overwrite=True)
-# brand_descriptions_dataset.to_pandas_dataframe()
+
 
 # Training script
 # script_folder = os.path.join(os.getcwd(), "train.py")
