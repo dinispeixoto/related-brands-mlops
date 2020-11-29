@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from azureml.core import Run
+from sklearn.metrics.pairwise import linear_kernel
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 parser = argparse.ArgumentParser()
@@ -36,14 +37,31 @@ print("Training model...")
 start = time.time()
 
 model = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=min_df, max_df=max_df, stop_words='english', )
-model.fit(brand_descriptions_df['description']) # Transform missing
+tfidf_matrix = model.fit_transform(brand_descriptions_df['description'])
 
 print("Training completed")
 end = time.time()
 run.log('time', end - start)
 
+# Build Recommendations
+cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
+
+recommendations = {} # dictionary created to store the result in a dictionary format (ID : (Score,item_id))#
+for idx, row in brand_descriptions_df.iterrows(): #iterates through all the rows
+    # the below code 'similar_indice' stores similar ids based on cosine similarity. sorts them in ascending order. [:-5:-1] is then used so that the indices with most similarity are got. 0 means no similarity and 1 means perfect similarity#
+    similar_indices = cosine_similarities[idx].argsort()[:-15:-1] 
+    #stores 5 most similar books, you can change it as per your needs
+    similar_items = [(cosine_similarities[idx][i], brand_descriptions_df['brand_id'][i]) for i in similar_indices]
+    recommendations[row['brand_id']] = {'name': row['brand_name'], 'recommendations': similar_items[1:]}
+
+
+# Example recommendation
+# run.log("score", recommendations[2450][0][0])
+
 print("Exporting model")
 os.makedirs('outputs', exist_ok=True)
-joblib.dump(value=model, filename='outputs/related_brands_tfidf_model.pkl')
+
+# joblib.dump(value=model, filename='outputs/related_brands_tfidf_model.pkl')
+joblib.dump(value=recommendations, filename='outputs/related_brands_recommendations.pkl')
 
 print("Training job finished")

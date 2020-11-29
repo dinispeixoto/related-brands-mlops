@@ -56,7 +56,9 @@ src = ScriptRunConfig(source_directory=script_folder,
                       environment=environment)
 
 run = experiment.submit(config=src)
-run.wait_for_completion(show_output=True) 
+run.wait_for_completion(show_output=True) # async operation
 
-model = run.register_model(model_name='related_brands', model_path='outputs/related_brands_tfidf_model.pkl')
+# Register the model on the model registry
+model = run.register_model(model_name='related_brands', model_path='outputs/related_brands_recommendations.pkl')
 print(model.name, model.id, model.version, sep='\t')
+
