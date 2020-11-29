@@ -2,8 +2,7 @@
 script: train.py
 # The arguments to the script file.
 arguments: [
-  "--kernel", "linear",
-  "--penalty", 1.0
+  "--data-folder", "../../data/",
 ]
 # The name of the compute target to use for this run.
 target: githubcluster
