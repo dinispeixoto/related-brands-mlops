@@ -13,19 +13,26 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def main(args):
-    path = args.data_folder
     min_df = args.min_df
     max_df = args.max_df
+    dataset_name = args.dataset
 
-    all_files = glob.glob(os.path.join(path, "*"))
-    print(all_files)
+    # all_files = glob.glob(os.path.join(path, "*"))
+    # print(all_files)
 
-    df_from_each_file = (pd.read_csv(file) for file in all_files)
-    brand_descriptions_df = pd.concat(df_from_each_file, ignore_index=True)
+    # df_from_each_file = (pd.read_csv(file) for file in all_files)
+    # brand_descriptions_df = pd.concat(df_from_each_file, ignore_index=True)
 
-    print(brand_descriptions_df.head(5))
+    # print(brand_descriptions_df.head(5))
 
     run = Run.get_context()
+    workspace = run.experiment.workspace
+
+    # Getting dataset
+    brand_descriptions_df = Dataset.get_by_name(workspace, name=dataset_name)
+    brand_descriptions_df.to_pandas_dataframe()
+
+    print(brand_descriptions_df.head(5))
 
     print("Training model...")
     start = time.time()
@@ -58,7 +65,7 @@ def main(args):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-folder', type=str, dest='data_folder', help='data folder mounting point')
+    parser.add_argument('--dataset', type=str, dest='dataset', help='dataset name')
     parser.add_argument('--min-df', type=float, dest='min_df', default=1, help='min document frequency')
     parser.add_argument('--max-df', type=float, dest='max_df', default=1.0, help='max document frenquency')
     args = parser.parse_args()
