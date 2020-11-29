@@ -17,14 +17,6 @@ def main(args):
     max_df = args.max_df
     dataset_name = args.dataset
 
-    # all_files = glob.glob(os.path.join(path, "*"))
-    # print(all_files)
-
-    # df_from_each_file = (pd.read_csv(file) for file in all_files)
-    # brand_descriptions_df = pd.concat(df_from_each_file, ignore_index=True)
-
-    # print(brand_descriptions_df.head(5))
-
     run = Run.get_context()
     workspace = run.experiment.workspace
 
@@ -58,7 +50,6 @@ def main(args):
     print("Exporting model")
     os.makedirs('outputs', exist_ok=True)
 
-    # joblib.dump(value=model, filename='outputs/related_brands_tfidf_model.pkl')
     joblib.dump(value=recommendations, filename='outputs/related_brands_recommendations.pkl')
     print("Training job finished")
 
