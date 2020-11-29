@@ -2,7 +2,7 @@
 script: train.py
 # The arguments to the script file.
 arguments: [
-  "--data-folder", "../../data/",
+  "--data-folder", "../../../../data/",
 ]
 # The name of the compute target to use for this run.
 target: githubcluster
