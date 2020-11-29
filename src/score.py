@@ -30,4 +30,4 @@ def run(raw_data):
 
     brand_id = json.loads(raw_data)['data'][0]
 
-    return ''.join(recommend(brand_id))
+    return recommend(brand_id)
