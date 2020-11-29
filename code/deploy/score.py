@@ -7,7 +7,7 @@ import joblib
 
 def init():
     global recommendations
-    recommendations_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'related_brands_recommendations.pkl')
+    recommendations_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'model.pkl')
     recommendations = joblib.load(recommendations_path)
 
 
