@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/Users/dinispeixoto/.pyenv/versions/3.6.9/bin/python",
+    "python.pythonPath": "/Users/dinispeixoto/opt/anaconda3/envs/training_env/bin/python",
     "python.formatting.provider": "black"
 }
