@@ -29,8 +29,8 @@ def main(args):
     workspace = run.experiment.workspace
 
     # Getting dataset
-    brand_descriptions_df = Dataset.get_by_name(workspace, name=dataset_name)
-    brand_descriptions_df.to_pandas_dataframe()
+    brand_descriptions_dataset = Dataset.get_by_name(workspace, name=dataset_name)
+    brand_descriptions_df = brand_descriptions_dataset.to_pandas_dataframe()
 
     print(brand_descriptions_df.head(5))
 
