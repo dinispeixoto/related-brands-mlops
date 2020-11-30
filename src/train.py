@@ -46,11 +46,9 @@ run.log('time', end - start)
 # Build Recommendations
 cosine_similarities = linear_kernel(tfidf_matrix, tfidf_matrix)
 
-recommendations = {} # dictionary created to store the result in a dictionary format (ID : (Score,item_id))#
-for idx, row in brand_descriptions_df.iterrows(): #iterates through all the rows
-    # the below code 'similar_indice' stores similar ids based on cosine similarity. sorts them in ascending order. [:-5:-1] is then used so that the indices with most similarity are got. 0 means no similarity and 1 means perfect similarity#
+recommendations = {} 
+for idx, row in brand_descriptions_df.iterrows(): 
     similar_indices = cosine_similarities[idx].argsort()[:-15:-1] 
-    #stores 5 most similar books, you can change it as per your needs
     similar_items = [(cosine_similarities[idx][i], brand_descriptions_df['brand_id'][i]) for i in similar_indices]
     recommendations[row['brand_id']] = {'name': row['brand_name'], 'recommendations': similar_items[1:]}
 
